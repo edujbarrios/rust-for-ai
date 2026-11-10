@@ -1,4 +1,4 @@
-name: Rust CI
+name: Notebook checks
 
 on:
   push:
@@ -9,16 +9,14 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/setup-python@v5
         with:
-          components: rustfmt, clippy
-      - name: Formatting
-        run: cargo fmt --all -- --check
-      - name: Lint
-        run: cargo clippy --all-targets -- -D warnings
-      - name: Tests
-        run: cargo test --all-targets
+          python-version: '3.12'
+      - name: Validate notebook structure and metadata
+        run: python scripts/validate_notebooks.py
+      - name: Check shell setup script syntax
+        run: bash -n scripts/setup.sh
