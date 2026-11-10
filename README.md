@@ -1,63 +1,65 @@
 # Rust for AI
 
-**Learn AI and machine learning by building small examples in Rust.** Open source, beginner-friendly, and focused on working code.
+> **"my easy-setup to work with AI-research and AI notebook projects on rust "**
 
-> **Early development:** the first working example is simple linear regression. More algorithms and tooling may be added over time.
+**Start researching and experimenting with AI in Rust, directly in Jupyter notebooks.** No custom framework, no unnecessary setup: Rust + JupyterLab + the [Evcxr Rust kernel](https://github.com/evcxr/evcxr).
 
 ## Quick start
 
-Install [Rust and Cargo](https://rustup.rs/), then clone and run:
+You need [Rust](https://rustup.rs/) and [Python 3](https://www.python.org/downloads/) installed.
+
+**macOS / Linux**
 
 ```sh
 git clone https://github.com/edujbarrios/rust-for-ai.git
 cd rust-for-ai
-cargo run
+bash scripts/setup.sh
 ```
 
-Expected output:
+**Windows (PowerShell)**
 
-```text
-Rust for AI — linear regression
-Slope: 2
-Intercept: 1
-Prediction for x=6: 13
+```powershell
+git clone https://github.com/edujbarrios/rust-for-ai.git
+cd rust-for-ai
+.\scripts\setup.ps1
 ```
 
-The example trains a straight line `y = 2x + 1` on five data points, then predicts the value at `x = 6`. It runs locally without downloading models, data, or third-party crates.
+Then open JupyterLab:
 
-## Use the library
+| System | Command |
+| --- | --- |
+| macOS / Linux | `./.venv/bin/jupyter lab` |
+| Windows | `.\.venv\Scripts\jupyter.exe lab` |
 
-The `LinearRegression` struct exposes `fit` and `predict`:
+Select the **Rust** kernel and open [`notebooks/01_hello_rust.ipynb`](notebooks/01_hello_rust.ipynb).
 
-```rust
-use rust_for_ai::LinearRegression;
+> The first setup compiles the Rust kernel and can take time. The setup scripts install JupyterLab inside `.venv`, install `rust-src`, install `evcxr_jupyter`, and register its Rust kernel. You can review the scripts before running them.
 
-let x = [0.0, 1.0, 2.0, 3.0];
-let y = [1.0, 3.0, 5.0, 7.0];
+## Notebooks: from zero to AI experiments
 
-let model = LinearRegression::fit(&x, &y)?;
-println!("{}", model.predict(6.0)); // 13
-# Ok::<(), Box<dyn std::error::Error>>(())
-```
+| Notebook | What you'll do |
+| --- | --- |
+| [01 — Hello Rust](notebooks/01_hello_rust.ipynb) | Run your first Rust cells, variables and collections |
+| [02 — Linear regression](notebooks/02_linear_regression.ipynb) | Fit a line with ordinary least squares and predict a result |
 
-Read [`src/lib.rs`](src/lib.rs) for the fit implementation and error handling, or [`src/main.rs`](src/main.rs) for the executable example. This example is educational rather than a production-grade ML implementation.
+These examples run locally and use only Rust's standard library. No API keys, GPUs or model downloads are needed.
 
-## Commands
+## Useful commands
 
 | Command | Purpose |
 | --- | --- |
-| `cargo run` | Run the linear regression example |
-| `cargo test` | Run unit tests |
-| `cargo fmt --all -- --check` | Verify Rust formatting |
-| `cargo clippy --all-targets -- -D warnings` | Check code quality |
-| `cargo build --release` | Build an optimized executable |
+| `jupyter lab` (inside `.venv`) | Start the notebook interface |
+| `jupyter kernelspec list` (inside `.venv`) | Check that the Rust kernel is installed |
+| `rustup component add rust-src` | Add Rust standard-library sources needed by Evcxr |
+| `cargo install --locked evcxr_jupyter` | Install the Rust notebook kernel manually |
+| `evcxr_jupyter --install` | Register Rust with Jupyter |
 
-GitHub Actions runs formatting, linting, and tests on pull requests and pushes to `main`.
+**Troubleshooting:** If `cargo` is not found, install Rust and restart your terminal. If `python3` / `py` is not found, install Python 3. If you cannot select Rust, rerun the setup script and check `jupyter kernelspec list`. For full kernel documentation see [Evcxr](https://github.com/evcxr/evcxr/blob/main/evcxr_jupyter/README.md).
 
 ## Contribute
 
-Contributions, bug reports, ideas, and documentation improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md) and [open issues](https://github.com/edujbarrios/rust-for-ai/issues).
+New reproducible AI/research notebooks and simple setup improvements are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
-Distributed under the custom **BSD 3-Clause Attribution License** in [LICENSE](LICENSE). It adds a **fourth, mandatory acknowledgment condition** and is not the standard SPDX `BSD-3-Clause` text. Read the full license before reuse or redistribution.
+[Custom BSD 3-Clause Attribution License](LICENSE) with an additional fourth acknowledgment requirement (not the standard SPDX `BSD-3-Clause`).
