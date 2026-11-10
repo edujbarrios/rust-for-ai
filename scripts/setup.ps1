@@ -2,32 +2,46 @@ $ErrorActionPreference = 'Stop'
 Set-Location (Join-Path $PSScriptRoot '..')
 
 if (-not (Get-Command cargo -ErrorAction SilentlyContinue) -or -not (Get-Command rustup -ErrorAction SilentlyContinue)) {
-    throw 'Rust is required. Install from https://rustup.rs/ and restart PowerShell.'
+    throw 'Rust is missing. Install it from https://rustup.rs/ and restart PowerShell.'
 }
-
-if (Get-Command py -ErrorAction SilentlyContinue) {
-    & py -3 -m venv .venv
-} elseif (Get-Command python -ErrorAction SilentlyContinue) {
-    & python -m venv .venv
-} else {
-    throw 'Python 3 is required: https://www.python.org/downloads/'
+$venvPython = Join-Path (Get-Location) '.venv\Scripts\python.exe'
+if (-not (Test-Path $venvPython)) {
+    if (Get-Command py -ErrorAction SilentlyContinue) {
+        & py -3 -m venv .venv
+    } elseif (Get-Command python -ErrorAction SilentlyContinue) {
+        & python -m venv .venv
+    } else {
+        throw 'Python 3.9+ is required: https://www.python.org/downloads/'
+    }
+    if ($LASTEXITCODE -ne 0) { throw 'Failed to create the Python virtual environment.' }
 }
-
-& .\.venv\Scripts\python.exe -m pip install --upgrade pip
-& .\.venv\Scripts\python.exe -m pip install jupyterlab
+& $venvPython -c 'import jupyterlab'
+if ($LASTEXITCODE -ne 0) {
+    & $venvPython -m pip install jupyterlab
+    if ($LASTEXITCODE -ne 0) { throw 'Failed to install JupyterLab.' }
+}
 & rustup component add rust-src
+if ($LASTEXITCODE -ne 0) { throw 'Failed to install rust-src.' }
 
-if (-not (Get-Command evcxr_jupyter -ErrorAction SilentlyContinue)) {
-    & cargo install --locked evcxr_jupyter
+$evcxr = Get-Command evcxr_jupyter -ErrorAction SilentlyContinue
+if ($evcxr) {
+    $evcxrExe = $evcxr.Source
+} else {
+    $evcxrExe = Join-Path $HOME '.cargo\bin\evcxr_jupyter.exe'
+    if (-not (Test-Path $evcxrExe)) {
+        & cargo install --locked evcxr_jupyter
+        if ($LASTEXITCODE -ne 0) { throw 'Failed to install the Rust Jupyter kernel.' }
+    }
 }
-
-# Register the Rust kernel in this Jupyter virtual environment.
-$env:JUPYTER_PATH = (Join-Path (Get-Location) '.venv\share\jupyter')
+$priorPath = $env:JUPYTER_PATH
+$env:JUPYTER_PATH = Join-Path (Get-Location) '.venv\share\jupyter'
 try {
-    & evcxr_jupyter --install
+    & $evcxrExe --install
+    if ($LASTEXITCODE -ne 0) { throw 'Rust kernel registration failed.' }
 } finally {
-    Remove-Item Env:JUPYTER_PATH -ErrorAction SilentlyContinue
+    $env:JUPYTER_PATH = $priorPath
 }
-
-Write-Host 'Ready! Run: .\.venv\Scripts\jupyter.exe lab'
-Write-Host 'Then choose Rust and open notebooks/01_hello_rust.ipynb.'
+& $venvPython -c 'from jupyter_client.kernelspec import KernelSpecManager; assert "rust" in KernelSpecManager().find_kernel_specs(), "Rust kernel registration failed"'
+if ($LASTEXITCODE -ne 0) { throw 'Rust kernel was not found.' }
+New-Item -ItemType File -Force '.venv\.rust-for-ai-ready' | Out-Null
+Write-Host 'Setup complete. Start notebooks anytime with: .\start.ps1'
