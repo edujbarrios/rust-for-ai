@@ -1,3 +1,5 @@
-/target/
-**/*.rs.bk
+.venv/
+.ipynb_checkpoints/
+__pycache__/
 .DS_Store
+/target/
