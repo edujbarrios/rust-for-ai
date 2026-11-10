@@ -1,0 +1,16 @@
+[package]
+name = "rust-for-ai"
+version = "0.1.0"
+edition = "2021"
+description = "Small, dependency-free AI and machine-learning examples in Rust"
+repository = "https://github.com/edujbarrios/rust-for-ai"
+license-file = "LICENSE"
+publish = false
+
+[lib]
+name = "rust_for_ai"
+path = "src/lib.rs"
+
+[[bin]]
+name = "rust-for-ai"
+path = "src/main.rs"
