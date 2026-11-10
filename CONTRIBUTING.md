@@ -1,24 +1,15 @@
-# Contributing to Rust for AI
+# Contributing
 
-Thanks for your interest in contributing! This project is in early development.
+Rust for AI is **notebook-first**: help make AI research and experimentation in Rust easier.
 
-## Before you start
+We welcome small, reproducible Jupyter notebooks, setup fixes and clear documentation.
 
-- Check existing [issues](https://github.com/edujbarrios/rust-for-ai/issues) before opening a duplicate.
-- For a significant feature or breaking change, open an issue first to discuss scope.
-- Keep pull requests focused and describe the motivation, changes, and validation performed.
-- Never commit secrets, credentials, private datasets, or model access tokens.
+- Start with an issue for large changes.
+- Prefer Rust notebook cells with no external services or private datasets.
+- Name notebooks in learning order (for example `03_topic.ipynb`).
+- Restart the kernel and run all cells in order before submitting a notebook.
+- Strip large outputs and do not commit credentials or local paths.
+- Document any new packages, model files or datasets required.
+- Describe what you tested in your pull request.
 
-## Pull request checklist
-
-- Explain what changed and why.
-- Include tests and examples when adding executable behavior.
-- Document new setup steps and user-facing functionality.
-- When Rust sources are introduced, follow the formatting and linting conventions established in the repository.
-- Link any related issue.
-
-## License and attribution
-
-By submitting a contribution, you agree that it may be distributed under the project's [LICENSE](LICENSE). The project's custom BSD attribution terms require retaining a specified acknowledgment on redistribution. Review the full text before contributing or redistributing.
-
-Please be respectful and constructive in issues, reviews, and discussions.
+Contributions are distributed under the project's [custom attribution license](LICENSE), which requires a redistribution acknowledgment.
