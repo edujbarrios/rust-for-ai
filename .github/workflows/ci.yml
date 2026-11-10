@@ -1,4 +1,4 @@
-name: Notebook checks
+name: Rust notebook checks
 
 on:
   push:
@@ -16,7 +16,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Validate notebook structure and metadata
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Validate notebook JSON and Rust kernel metadata
         run: python scripts/validate_notebooks.py
-      - name: Check shell setup script syntax
-        run: bash -n scripts/setup.sh
+      - name: Compile and run every Rust notebook
+        run: python scripts/test_notebook_rust.py
+      - name: Validate Bash setup and start scripts
+        run: bash -n scripts/setup.sh start.sh
