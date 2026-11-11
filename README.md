@@ -42,8 +42,9 @@ For VS Code, **run the setup once** before selecting Rust: `bash scripts/setup.s
 | [02 · Random Forest](notebooks/02_random_forest.ipynb) | Generate synthetic data, train a forest, examine accuracy and a confusion matrix |
 | [03 · Neural Network](notebooks/03_neural_network.ipynb) | Train a small neural network with backpropagation on XOR |
 | [04 · Pretrained CNNs](notebooks/04_pretrained_cnns.ipynb) | Download real ResNet18, MobileNetV2 and VGG19 checkpoints; inspect transfer-learning plans and optional tch-rs fine-tuning code |
+| [05 · Offline bilingual Piper TTS](notebooks/05_piper_tts_bilingual_offline.ipynb) | Compare Spanish/English voice sizes, benchmark local Piper inference and generate four offline WAV/MP3 listening samples (Piper and FFmpeg installed separately) |
 
-Notebooks 01–03 use only Rust's standard library. Notebook 04 uses standard-library Rust and `curl` to download real pretrained CNN weights; optional model loading/freezing uses `tch-rs` and a separately installed compatible libtorch ([Rust CLI](examples/cnn_finetuning/README.md)). These are educational examples, not production ML systems.
+Notebooks 01–03 use only Rust's standard library. Notebook 05 tests Piper TTS voices for LastLight-Voice: it defaults to the two lightest selected ES/EN voices and only downloads weights when `PIPER_PREPARE=1` is explicitly set. Piper and FFmpeg must be installed separately for real audio; outputs are generated locally, not included in the Git repository. Notebook 04 uses standard-library Rust and `curl` to download real pretrained CNN weights; optional model loading/freezing uses `tch-rs` and a separately installed compatible libtorch ([Rust CLI](examples/cnn_finetuning/README.md)). These are educational examples, not production ML systems.
 
 ## See the notebooks already executed on GitHub
 
