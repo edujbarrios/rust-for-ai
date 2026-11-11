@@ -1,7 +1,7 @@
-"""Execute the tutorial notebooks using the real Evcxr Jupyter Rust kernel.
+"""Run the tutorials in the real Evcxr Rust Jupyter kernel and save outputs.
 
-Writes separate, GitHub-renderable copies under executed/; source notebooks
-remain clean and continue to pass scripts/validate_notebooks.py.
+Update both the original notebooks (the README's primary links) and an
+executed/ gallery so GitHub displays real cell results in either location.
 """
 from pathlib import Path
 
@@ -40,9 +40,13 @@ def main() -> None:
             not any(output.output_type == "error" for output in cell.outputs)
             for cell in code
         ), f"{path}: a code cell failed"
+        assert any(cell.outputs for cell in code), f"{path}: no visible output"
+
+        # Save to the ORIGINAL notebook, not only to a separate copy.
+        nbformat.write(result, path)
         target = DEST / path.name
         nbformat.write(result, target)
-        print(f"Saved executed notebook: {target.relative_to(ROOT)}", flush=True)
+        print(f"Saved executed notebook: {path.relative_to(ROOT)}", flush=True)
 
     print(f"Executed {len(paths)} Rust notebooks successfully.", flush=True)
 
