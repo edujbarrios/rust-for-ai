@@ -3,3 +3,7 @@
 __pycache__/
 .DS_Store
 /target/
+
+# Large pretrained model checkpoints (never commit weights)
+*.ot
+*.ot.part
