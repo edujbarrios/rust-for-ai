@@ -58,9 +58,9 @@ results. Browse the outputs directly on GitHub:
 
 The [GitHub Actions execution workflow](.github/workflows/execute-notebooks.yml)
 uses the same `scripts/setup.sh` easy setup as local development. It installs
-Evcxr, runs all three notebooks with Jupyter and commits their executed copies
-to the demonstration branch. Original files in `notebooks/` stay unexecuted
-and ready for learners.
+Evcxr, runs all three notebooks with Jupyter and commits both original notebooks and executed copies
+to the demonstration branch. Original files in `notebooks/` are also saved with real cell outputs,
+and learners can rerun every cell themselves.
 
 ## Helpful commands
 
