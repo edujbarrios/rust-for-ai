@@ -6,6 +6,7 @@ Jupyter kernel**. They are not manually fabricated output.
 - [01 — Hello Rust](01_hello_rust.ipynb)
 - [02 — Random Forest](02_random_forest.ipynb)
 - [03 — Neural Network (XOR)](03_neural_network.ipynb)
+- [04 — Pretrained CNNs](04_pretrained_cnns.ipynb) (checkpoint downloads, no training)
 
 The original notebooks live in [`notebooks/`](../notebooks/) and remain clean
 so new users can run them from scratch using `bash start.sh` or
