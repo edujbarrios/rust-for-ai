@@ -6,6 +6,7 @@ on:
       - demo/executed-rust-notebooks
       - feat/pretrained-cnn-finetuning-notebook
       - main
+      - docs/english-cnn-notebook
     paths:
       - notebooks/**
       - scripts/setup.sh
@@ -42,7 +43,7 @@ jobs:
       - name: Execute notebooks with the real Rust kernel
         run: .venv/bin/python scripts/execute_notebooks.py
       - name: Commit rendered notebooks to the demo branch
-        if: github.ref == 'refs/heads/demo/executed-rust-notebooks' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/pretrained-cnn-finetuning-notebook'
+        if: github.ref == 'refs/heads/demo/executed-rust-notebooks' || github.ref == 'refs/heads/main' || github.ref == 'refs/heads/feat/pretrained-cnn-finetuning-notebook' || github.ref == 'refs/heads/docs/english-cnn-notebook'
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
