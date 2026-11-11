@@ -4,6 +4,7 @@ This complements notebook JSON validation. It does not replace a live Evcxr
 kernel integration test, but catches Rust syntax/runtime regressions offline.
 """
 import json
+import os
 from pathlib import Path
 import subprocess
 import tempfile
@@ -33,6 +34,7 @@ def main() -> None:
             )
             result = subprocess.run(
                 [str(binary)], capture_output=True, text=True, check=True, timeout=120,
+                env={**os.environ, "RUST_FOR_AI_CNN_OFFLINE": "1"},
             )
             print(f"PASS: {path}")
             print(result.stdout.strip())
