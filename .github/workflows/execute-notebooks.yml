@@ -1,0 +1,53 @@
+name: Execute Rust notebooks (Evcxr demo)
+
+on:
+  push:
+    branches:
+      - demo/executed-rust-notebooks
+    paths:
+      - notebooks/**
+      - scripts/setup.sh
+      - scripts/execute_notebooks.py
+      - .github/workflows/execute-notebooks.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  execute:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/evcxr_jupyter
+            ~/.cargo/registry
+            ~/.cargo/git
+          key: evcxr-jupyter-${{ runner.os }}-${{ runner.arch }}-v1
+      - name: Install Rust Jupyter kernel via the project's easy setup
+        run: bash scripts/setup.sh
+      - name: Install notebook execution helpers
+        run: .venv/bin/python -m pip install nbclient nbformat
+      - name: Execute notebooks with the real Rust kernel
+        run: .venv/bin/python scripts/execute_notebooks.py
+      - name: Commit rendered notebooks to the demo branch
+        if: github.ref == 'refs/heads/demo/executed-rust-notebooks'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add executed/*.ipynb
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: show real Evcxr notebook execution outputs [skip ci]"
+            git push
+          else
+            echo "Executed notebook outputs are already up to date."
+          fi
