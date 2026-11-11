@@ -1,0 +1,8 @@
+[package]
+name = "rust-for-ai-cnn-finetuning"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+tch = "0.24"
