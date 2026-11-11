@@ -44,10 +44,13 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add executed/*.ipynb
+          git add notebooks/*.ipynb executed/*.ipynb
           if ! git diff --cached --quiet; then
             git commit -m "docs: show real Evcxr notebook execution outputs [skip ci]"
-            git push
+            # A previous run failed because README changed while execution ran.
+            # Rebase onto the current branch head before publishing outputs.
+            git pull --rebase origin demo/executed-rust-notebooks
+            git push origin HEAD:demo/executed-rust-notebooks
           else
             echo "Executed notebook outputs are already up to date."
           fi
