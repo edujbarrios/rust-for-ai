@@ -44,6 +44,24 @@ For VS Code, **run the setup once** before selecting Rust: `bash scripts/setup.s
 
 All examples use Rust's standard library. They are educational research notebooks, not production-ready AI libraries.
 
+## See the notebooks already executed on GitHub
+
+The [executed notebook gallery](executed/README.md) contains saved Jupyter cell
+outputs produced by the **real Rust (Evcxr) kernel**, not screenshots or mocked
+results. Browse the outputs directly on GitHub:
+
+| Live-executed example | Output to inspect |
+| --- | --- |
+| [01 · Hello Rust](executed/01_hello_rust.ipynb) | Printed Rust values and computed mean |
+| [02 · Random Forest](executed/02_random_forest.ipynb) | Test accuracy, baseline and confusion matrix |
+| [03 · Neural Network](executed/03_neural_network.ipynb) | XOR probabilities and training accuracy |
+
+The [GitHub Actions execution workflow](.github/workflows/execute-notebooks.yml)
+uses the same `scripts/setup.sh` easy setup as local development. It installs
+Evcxr, runs all three notebooks with Jupyter and commits both original notebooks and executed copies
+to the demonstration branch. Original files in `notebooks/` are also saved with real cell outputs,
+and learners can rerun every cell themselves.
+
 ## Helpful commands
 
 | Command | Use |
