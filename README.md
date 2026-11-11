@@ -41,8 +41,9 @@ For VS Code, **run the setup once** before selecting Rust: `bash scripts/setup.s
 | [01 · Hello Rust](notebooks/01_hello_rust.ipynb) | Learn Rust cells, variables and vectors |
 | [02 · Random Forest](notebooks/02_random_forest.ipynb) | Generate synthetic data, train a forest, examine accuracy and a confusion matrix |
 | [03 · Neural Network](notebooks/03_neural_network.ipynb) | Train a small neural network with backpropagation on XOR |
+| [04 · Pretrained CNNs](notebooks/04_pretrained_cnns.ipynb) | Download real ResNet18, MobileNetV2 and VGG19 checkpoints; inspect transfer-learning plans and optional tch-rs fine-tuning code |
 
-All examples use Rust's standard library. They are educational research notebooks, not production-ready AI libraries.
+Notebooks 01–03 use only Rust's standard library. Notebook 04 uses standard-library Rust and `curl` to download real pretrained CNN weights; optional model loading/freezing uses `tch-rs` and a separately installed compatible libtorch ([Rust CLI](examples/cnn_finetuning/README.md)). These are educational examples, not production ML systems.
 
 ## See the notebooks already executed on GitHub
 
@@ -55,10 +56,11 @@ results. Browse the outputs directly on GitHub:
 | [01 · Hello Rust](executed/01_hello_rust.ipynb) | Printed Rust values and computed mean |
 | [02 · Random Forest](executed/02_random_forest.ipynb) | Test accuracy, baseline and confusion matrix |
 | [03 · Neural Network](executed/03_neural_network.ipynb) | XOR probabilities and training accuracy |
+| [04 · Pretrained CNNs](executed/04_pretrained_cnns.ipynb) | Verified checkpoint downloads and Rust fine-tuning modes (no training) |
 
 The [GitHub Actions execution workflow](.github/workflows/execute-notebooks.yml)
 uses the same `scripts/setup.sh` easy setup as local development. It installs
-Evcxr, runs all three notebooks with Jupyter and commits both original notebooks and executed copies
+Evcxr, runs all notebooks with Jupyter and commits both original notebooks and executed copies
 to the demonstration branch. Original files in `notebooks/` are also saved with real cell outputs,
 and learners can rerun every cell themselves.
 
